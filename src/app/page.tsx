@@ -1,63 +1,106 @@
-import HeroCarousel from '@/components/HeroCarousel'
-import Section from '@/components/Section'
-import PillarCard from '@/components/PillarCard'
-import ClientsGrid from '@/components/ClientsGrid'
-import StaffGrid from '@/components/StaffGrid'
-import Consultants from '@/components/Consultants'
-import StatsBlock from '@/components/StatsBlock'
-import ImageGrid from '@/components/ImageGrid'
-import { pillars } from '@/data/pillars'
+import Section from '@/components/Section';
+import StatsBlock from '@/components/StatsBlock';
+import PillarCard from '@/components/PillarCard';
+import StaffGrid from '@/components/StaffGrid';
+// (optional showreel components, implemented but not required on page)
+// import HeroCarousel from '@/components/HeroCarousel';
+// import ImageGrid from '@/components/ImageGrid';
+// import ClientsGrid from '@/components/ClientsGrid';
 
+import { pillars } from '@/data/pillars';
+import { stats } from '@/data/stats';
+import { staff } from '@/data/staff';
 
 export default function HomePage() {
-return (
-<>
-<HeroCarousel />
+  return (
+    <>
+      {/* HERO */}
+      <section className="hero">
+        <div className="container hero-inner">
+          <div className="hero-text">
+            <p className="eyebrow">Hockey Development Agency</p>
+            <h1>Committed to our players’ success.</h1>
+            <p className="lead">
+              We guide young hockey players worldwide to build elite skills, mindset, and opportunity—
+              on and off the ice.
+            </p>
+            <div className="hero-actions">
+              <a href="#cta" className="btn">Become a Client</a>
+              <a href="#about" className="btn btn-ghost">Learn More</a>
+            </div>
+          </div>
+          <div className="hero-art" aria-hidden="true">
+            <div className="puck"></div>
+            <div className="rink"></div>
+          </div>
+        </div>
+      </section>
 
+      {/* ABOUT */}
+      <Section id="about" eyebrow="About ERZI Hockey" title="A 360-degree approach.">
+        <p>
+          ERZI is a full-service hockey development agency serving prospects 14+ across Europe, Asia,
+          and North America. We combine individual skill development, performance planning, mentorship,
+          and career guidance to help players reach their highest level.
+        </p>
+        <p>
+          Clients who sign with ERZI get members-only access to programs, videos, and articles customized
+          to their needs. Our platform tracks training consistency and progress, building accountability
+          and momentum—without micromanaging.
+        </p>
+      </Section>
 
-<Section id="about" kicker="About ERZI Hockey" title="Committed to our players' success.">
-<p className="text-neutral-700 max-w-3xl">
-ERZI is a full‑service hockey development agency for prospects 14+ across Europe, Asia, and North America.
-We design individualized programs, track progress and connect each player to a
-dedicated mentor—on and off the ice.
-</p>
-</Section>
+      {/* WHAT WE DO */}
+      <section id="approach" className="section alt">
+        <div className="container grid-3">
+          {pillars.map((p) => (
+            <PillarCard key={p.title} title={p.title} body={p.body} />
+          ))}
+        </div>
+      </section>
 
+      {/* PLATFORM */}
+      <Section
+        id="platform"
+        eyebrow="Member Platform"
+        title="Coach access. Clear feedback. Progress that compounds."
+      >
+        <ul className="checklist">
+          <li>Private dashboard with weekly score to encourage consistency.</li>
+          <li>Video library: skating, skills, position-specific drills.</li>
+          <li>Direct chat with assigned mentor/coach.</li>
+          <li>Curated newsfeed of global hockey leagues.</li>
+          <li>Summer &amp; off-season training blocks with measurable goals.</li>
+        </ul>
+        <div className="inline-cta">
+          <a className="btn" href="#cta">Get Access</a>
+          <a className="btn btn-outline" href="#login">Member Login</a>
+        </div>
+      </Section>
 
-<Section id="what" kicker="What We Do" title="A 360° approach to development">
-<div className="grid gap-4 md:grid-cols-3">
-{pillars.map((p) => (
-<PillarCard key={p.title} title={p.title} body={p.body} />
-))}
-</div>
-</Section>
+      {/* STATS (optional flourish) */}
+      <StatsBlock stats={stats} />
 
+      {/* TEAM */}
+      <section id="team" className="section alt">
+        <div className="container">
+          <h2 className="section-title center">ERZI Mentors &amp; Coaches</h2>
+          <p className="center subtext">Experienced staff dedicated to player growth on and off the ice.</p>
+          <StaffGrid people={staff} />
+        </div>
+      </section>
 
-<ImageGrid />
-
-
-<ClientsGrid />
-
-
-<StatsBlock />
-
-
-<Section id="team" kicker="Our Team" title="Coaches & Mentors">
-<StaffGrid />
-</Section>
-
-
-<Consultants />
-
-
-<Section id="contact" kicker="Get Started" title="Let's build your plan">
-<form className="mt-2 grid max-w-xl gap-3">
-<input className="rounded border p-2" placeholder="Full name" />
-<input className="rounded border p-2" placeholder="Email" />
-<textarea rows={5} className="rounded border p-2" placeholder="Tell us your goals and current level…" />
-<button type="button" className="rounded bg-black px-4 py-2 text-white">Request a Call</button>
-</form>
-</Section>
-</>
-)
+      {/* CTA */}
+      <section id="cta" className="cta">
+        <div className="container cta-inner">
+          <h2>Ready to chase your ceiling?</h2>
+          <p>Join ERZI and get a bespoke plan, direct mentorship, and a pathway you can see.</p>
+          <div className="hero-actions">
+            <a href="#" className="btn">Apply Now</a>
+            <a href="#about" className="btn btn-ghost">See How It Works</a>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }
