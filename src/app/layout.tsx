@@ -13,25 +13,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {/* Header */}
         <header className="site-header">
-          <div className="container nav">
+          <div className="nav">
+            {/* Left: Brand */}
             <a className="brand" href="/" aria-label="ERZI Home">
               <span className="brand-mark" aria-hidden="true">E</span>
               <span className="brand-word">ERZI</span>
             </a>
 
-            <nav className="nav-links" id="site-nav">
+            {/* Center: main nav stretched across white strip */}
+            <nav className="nav-center" id="site-center" aria-label="Primary">
               <a href="#about">About</a>
               <a href="#approach">What We Do</a>
               <a href="#team">Mentors</a>
               <a href="#platform">Platform</a>
-              <a href="#cta" className="btn btn-outline small">Contact</a>
-              <a href="#login" className="btn btn-outline small">Log In</a>
             </nav>
 
-            {/* Mobile menu button (no hydration needed) */}
-            <button className="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false">
-              <span></span><span></span><span></span>
-            </button>
+            {/* Right: actions */}
+            <div className="nav-actions">
+              <a href="#cta" className="btn btn-outline small">Contact</a>
+              <a href="#login" className="btn btn-outline small">Log In</a>
+
+            {/* Mobile menu button */}
+              <button className="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" type="button">
+                <span></span><span></span><span></span>
+              </button>
+            </div>
           </div>
         </header>
 

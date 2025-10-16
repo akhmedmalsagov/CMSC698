@@ -17,18 +17,100 @@ img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 .container{max-width:1100px;margin:0 auto;padding:0 20px}
 
-/* Header */
-.site-header{position:sticky;top:0;z-index:50;background:rgba(11,13,18,.75);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
-.brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px}
-.brand-mark{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:var(--brand);color:var(--brand-ink);font-weight:900}
-.brand-word{font-size:20px}
-.nav-links{display:none;gap:22px;align-items:center}
-.nav-links a{color:var(--muted);font-weight:600}
-.nav-links a:hover{color:var(--text)}
-.menu-btn{background:none;border:none;display:grid;gap:4px}
-.menu-btn span{width:24px;height:2px;background:var(--text);display:block}
-@media (min-width:860px){.nav-links{display:flex}.menu-btn{display:none}}
+/* ===== Header layout ===== */
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(11,13,18,.75);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Three zones: brand | center | actions */
+.nav{
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  height: 68px;
+  gap: 16px;
+  padding: 0 20px;
+}
+
+/* Brand */
+.brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+.brand-mark{
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  display: grid; place-items: center;
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-weight: 900;
+}
+.brand-word{ font-size: 20px; }
+
+/* Center nav: inline, tighter, white text, no background */
+.nav-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;                 /* ↓ increase/decrease to tune spacing */
+  height: 40px;
+  padding: 0;
+  background: transparent;   /* remove white strip */
+  color: var(--text);        /* header white */
+}
+
+.nav-center a{
+  color: var(--text);        /* white text */
+  font-weight: 700;
+  text-align: center;
+  padding: 6px 4px;          /* tighter hitbox */
+  border-radius: 8px;
+}
+
+.nav-center a:hover{
+  text-decoration: underline;
+  background: rgba(255,255,255,0.04); /* very subtle, optional */
+}
+
+/* remove the old separators if you added them earlier */
+.nav-center a + a{ border-left: none; }
+
+/* Right side actions */
+.nav-actions{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: end;
+}
+
+/* Mobile menu button */
+.menu-btn{
+  background: none;
+  border: none;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+}
+.menu-btn span{
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  display: block;
+}
+
+/* Responsive behavior */
+@media (max-width: 860px){
+  .nav-center{ display: none; } /* hide center links on mobile */
+  .menu-btn{ display: flex; }
+}
 
 /* Buttons */
 .btn{background:var(--brand);color:var(--brand-ink);border:1px solid transparent;padding:12px 18px;border-radius:12px;font-weight:700;display:inline-block;box-shadow:0 0 0 0 var(--ring);transition:transform .04s ease,box-shadow .2s ease,background .2s ease}
@@ -37,23 +119,144 @@ a{color:inherit;text-decoration:none}
 .btn-outline{background:transparent;border:1px solid var(--brand);color:var(--brand)}
 .btn.small{padding:8px 12px;border-radius:10px;font-weight:700}
 
-/* Hero */
-.hero{position:relative;overflow:hidden;background:radial-gradient(1200px 600px at 80% -10%,#243048,transparent),linear-gradient(180deg,#0b0d12,#0b0d12 55%,#10131b);border-bottom:1px solid var(--line)}
-.hero-inner{display:grid;gap:48px;padding:72px 0}
-@media (min-width:980px){.hero-inner{grid-template-columns:1.2fr 1fr;align-items:center;gap:24px;padding:96px 0 110px}}
-.eyebrow{color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:12px}
-.hero h1{font-size:clamp(36px,4.6vw,56px);line-height:1.06;margin:10px 0 12px}
-.lead{font-size:18px;color:var(--muted);max-width:60ch}
-.hero-actions{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}
-.hero-art{position:relative;height:320px}
-@media (min-width:980px){.hero-art{height:420px}}
-.puck{position:absolute;right:14%;top:10%;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#222933,#0b0d12 65%);box-shadow:0 30px 50px rgba(0,0,0,.6);animation:float 6s ease-in-out infinite}
-.rink{position:absolute;inset:18% 0 0 18%;border-radius:18px;background:
-  radial-gradient(circle at 10% 15%,rgba(255,255,255,.05),transparent 35%),
-  linear-gradient(transparent 60%,rgba(255,255,255,.04)),
-  linear-gradient(90deg,rgba(216,30,36,.35) 0 2px,transparent 2px 50%,rgba(0,148,255,.35) 50% 52px,transparent 52px 100%);
-border:1px solid var(--line)}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* HERO (updated with slideshow and bottom-left text) */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: transparent; /* slideshow handles bg */
+  border-bottom: 1px solid var(--line);
+  min-height: 85vh; /* tall enough for the background */
+}
+
+/* Keep hero relative so we can anchor inside it */
+.hero{
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  min-height: 85vh;
+}
+
+/* Let the text sit on top of images/overlay */
+.hero-inner, .hero-text, .hero-art { position: relative; z-index: 2; }
+
+/* ⬅️⬇️ Pin the text block to the bottom-left */
+.hero-text{
+  position: absolute;      /* anchor inside .hero */
+  left: 10px;              /* distance from left edge */
+  bottom: 10px;            /* distance from bottom edge */
+  max-width: 760px;
+  padding: 0;              /* you can add padding if you want a box around it */
+}
+
+/* On wide screens you can nudge it if you like */
+@media (min-width: 980px){
+  .hero-text{
+    left: 0px;
+    bottom: 0px;
+  }
+}
+
+/* headline & subtext styles (keep same look) */
+.eyebrow {
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: 12px;
+}
+.hero h1 {
+  font-size: clamp(36px, 4.6vw, 56px);
+  line-height: 1.06;
+  margin: 10px 0 12px;
+}
+.lead {
+  font-size: 18px;
+  color: #fff;
+  max-width: 60ch;
+}
+.hero-actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* optional decorative elements */
+.hero-art { position: relative; height: 320px; }
+@media (min-width: 980px) { .hero-art { height: 420px; } }
+.puck {
+  position: absolute;
+  right: 14%; top: 10%;
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #222933, #0b0d12 65%);
+  box-shadow: 0 30px 50px rgba(0,0,0,.6);
+  animation: float 6s ease-in-out infinite;
+}
+.rink {
+  position: absolute;
+  inset: 18% 0 0 18%;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 10% 15%, rgba(255,255,255,.05), transparent 35%),
+    linear-gradient(transparent 60%, rgba(255,255,255,.04)),
+    linear-gradient(90deg, rgba(216,30,36,.35) 0 2px, transparent 2px 50%, rgba(0,148,255,.35) 50% 52px, transparent 52px 100%);
+  border: 1px solid var(--line);
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+/* slideshow background */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-bg span {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  animation: heroFade 30s infinite;
+  transition: opacity .6s ease;
+}
+/* stagger 5 slides */
+.hero-bg span:nth-child(1){ animation-delay: 0s; }
+.hero-bg span:nth-child(2){ animation-delay: 6s; }
+.hero-bg span:nth-child(3){ animation-delay: 12s; }
+.hero-bg span:nth-child(4){ animation-delay: 18s; }
+.hero-bg span:nth-child(5){ animation-delay: 24s; }
+
+@keyframes heroFade {
+  0% { opacity: 0; }
+  4% { opacity: 1; }
+  20% { opacity: 1; }
+  24% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* dark overlay for readability */
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  /* dial these opacities way down */
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(36,48,72,.25), transparent), /* was .55 */
+    linear-gradient(180deg, rgba(11,13,18,.20), rgba(11,13,18,.28));           /* was .82/.92 */
+  pointer-events:none;
+  z-index:1;
+}
+.hero-inner, .hero-text, .hero-art {
+  position: relative;
+  z-index: 2;
+}
+
+/* hide decorative elements on small screens if you want */
+@media (max-width: 979px) {
+  .hero-art { display: none; }
+}
 
 /* Sections */
 .section{padding:64px 0;border-top:1px solid var(--line)}

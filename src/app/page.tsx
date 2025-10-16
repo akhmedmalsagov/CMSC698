@@ -16,12 +16,21 @@ export default function HomePage() {
     <>
       {/* HERO */}
       <section className="hero">
+      {/* NEW: background slideshow layer */}
+        <div className="hero-bg" aria-hidden="true">
+          <span style={{ backgroundImage: 'url(/hero/01.jpg)' }} />
+          <span style={{ backgroundImage: 'url(/hero/02.jpg)' }} />
+          <span style={{ backgroundImage: 'url(/hero/03.jpg)' }} />
+          <span style={{ backgroundImage: 'url(/hero/04.jpg)' }} />
+          <span style={{ backgroundImage: 'url(/hero/05.jpg)' }} />
+        </div>
+
         <div className="container hero-inner">
           <div className="hero-text">
             <p className="eyebrow">Hockey Development Agency</p>
             <h1>Committed to our players’ success.</h1>
             <p className="lead">
-              We guide young hockey players worldwide to build elite skills, mindset, and opportunity—
+              We partner with young hockey players worldwide to build elite skills, mindset, and opportunity—
               on and off the ice.
             </p>
             <div className="hero-actions">
@@ -29,6 +38,8 @@ export default function HomePage() {
               <a href="#about" className="btn btn-ghost">Learn More</a>
             </div>
           </div>
+
+      {/* keep or remove this decorative art — it will sit above the slideshow */}
           <div className="hero-art" aria-hidden="true">
             <div className="puck"></div>
             <div className="rink"></div>
