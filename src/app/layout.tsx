@@ -18,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <a className="brand" href="/" aria-label="ERZI Home">
               <span className="brand-mark" aria-hidden="true">E</span>
               <span className="brand-word">ERZI</span>
+              <span className="brand-slogan">Hockey Development Agency</span>
             </a>
 
             {/* Center: main nav stretched across white strip */}

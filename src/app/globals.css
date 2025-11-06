@@ -120,44 +120,75 @@ a{color:inherit;text-decoration:none}
 .btn.small{padding:8px 12px;border-radius:10px;font-weight:700}
 
 
-/* HERO (updated with slideshow and bottom-left text) */
+/* --- ERZI hero fix: keep text above everything and flush bottom-left --- */
+.hero {
+  position: relative; 
+  min-height: 90vh; 
+  overflow: hidden;
+}
+
+/* slideshow layer (if you use it) */
+.hero-bg{ 
+  position:absolute; 
+  inset:0; 
+  z-index:0;
+}
+
+.hero-bg span{ 
+  position:absolute; 
+  inset:0; 
+  background-size:cover; 
+  background-position:center;
+}
+
+/* overlay stays below the text */
+.hero::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.45));
+  z-index:1;
+  pointer-events:none;
+}
+
+/* FIX: Force hero text to true bottom-left */
 .hero {
   position: relative;
+  min-height: 90vh;
   overflow: hidden;
-  background: transparent; /* slideshow handles bg */
-  border-bottom: 1px solid var(--line);
-  min-height: 85vh; /* tall enough for the background */
 }
 
-/* Keep hero relative so we can anchor inside it */
-.hero{
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid var(--line);
-  min-height: 85vh;
+.hero-text {
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 0 12px 0 !important;
+  max-width: 740px;
+  z-index: 3 !important;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
-/* Let the text sit on top of images/overlay */
-.hero-inner, .hero-text, .hero-art { position: relative; z-index: 2; }
-
-/* ⬅️⬇️ Pin the text block to the bottom-left */
-.hero-text{
-  position: absolute;      /* anchor inside .hero */
-  left: 10px;              /* distance from left edge */
-  bottom: 10px;            /* distance from bottom edge */
-  max-width: 760px;
-  padding: 0;              /* you can add padding if you want a box around it */
+/* kill any padding from container or hero-inner */
+.hero .container,
+.hero-inner {
+  padding: 0 !important;
+  margin: 0 !important;
+  position: static !important;
 }
 
-/* On wide screens you can nudge it if you like */
-@media (min-width: 980px){
-  .hero-text{
-    left: 0px;
-    bottom: 0px;
+/* safe padding on mobile so text doesn't touch edges */
+@media (max-width: 720px) {
+  .hero-text {
+    left: 10px !important;
+    bottom: 6px !important;
+    right: 10px !important;
   }
 }
 
-/* headline & subtext styles (keep same look) */
+/* headline & subtext styles */
 .eyebrow {
   color: #fff;
   font-weight: 700;
@@ -166,7 +197,7 @@ a{color:inherit;text-decoration:none}
   font-size: 12px;
 }
 .hero h1 {
-  font-size: clamp(36px, 4.6vw, 56px);
+  font-size: clamp(28px, 4vw, 48px);
   line-height: 1.06;
   margin: 10px 0 12px;
 }
@@ -181,30 +212,6 @@ a{color:inherit;text-decoration:none}
   gap: 12px;
   flex-wrap: wrap;
 }
-
-/* optional decorative elements */
-.hero-art { position: relative; height: 320px; }
-@media (min-width: 980px) { .hero-art { height: 420px; } }
-.puck {
-  position: absolute;
-  right: 14%; top: 10%;
-  width: 80px; height: 80px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #222933, #0b0d12 65%);
-  box-shadow: 0 30px 50px rgba(0,0,0,.6);
-  animation: float 6s ease-in-out infinite;
-}
-.rink {
-  position: absolute;
-  inset: 18% 0 0 18%;
-  border-radius: 18px;
-  background:
-    radial-gradient(circle at 10% 15%, rgba(255,255,255,.05), transparent 35%),
-    linear-gradient(transparent 60%, rgba(255,255,255,.04)),
-    linear-gradient(90deg, rgba(216,30,36,.35) 0 2px, transparent 2px 50%, rgba(0,148,255,.35) 50% 52px, transparent 52px 100%);
-  border: 1px solid var(--line);
-}
-@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
 
 /* slideshow background */
 .hero-bg {

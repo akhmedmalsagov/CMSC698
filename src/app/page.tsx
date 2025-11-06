@@ -27,7 +27,6 @@ export default function HomePage() {
 
         <div className="container hero-inner">
           <div className="hero-text">
-            <p className="eyebrow">Hockey Development Agency</p>
             <h1>Committed to our players’ success.</h1>
             <p className="lead">
               We partner with young hockey players worldwide to build elite skills, mindset, and opportunity—
@@ -38,14 +37,10 @@ export default function HomePage() {
               <a href="#about" className="btn btn-ghost">Learn More</a>
             </div>
           </div>
-
-      {/* keep or remove this decorative art — it will sit above the slideshow */}
-          <div className="hero-art" aria-hidden="true">
-            <div className="puck"></div>
-            <div className="rink"></div>
-          </div>
         </div>
       </section>
+
+
 
       {/* ABOUT */}
       <Section id="about" eyebrow="About ERZI Hockey" title="A 360-degree approach.">
