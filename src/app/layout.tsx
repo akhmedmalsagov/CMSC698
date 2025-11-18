@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {/* Right: actions */}
             <div className="nav-actions">
               <a href="#cta" className="btn btn-outline small">Contact</a>
-              <a href="#login" className="btn btn-outline small">Log In</a>
+              <a href="/login" className="btn btn-outline small">Log In</a>
 
             {/* Mobile menu button */}
               <button className="menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" type="button">

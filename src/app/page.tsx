@@ -2,11 +2,6 @@ import Section from '@/components/Section';
 import StatsBlock from '@/components/StatsBlock';
 import PillarCard from '@/components/PillarCard';
 import StaffGrid from '@/components/StaffGrid';
-// (optional showreel components, implemented but not required on page)
-// import HeroCarousel from '@/components/HeroCarousel';
-// import ImageGrid from '@/components/ImageGrid';
-// import ClientsGrid from '@/components/ClientsGrid';
-
 import { pillars } from '@/data/pillars';
 import { stats } from '@/data/stats';
 import { staff } from '@/data/staff';
@@ -27,13 +22,13 @@ export default function HomePage() {
 
         <div className="container hero-inner">
           <div className="hero-text">
-            <h1>Committed to our players’ success.</h1>
+            <h1>Committed to our player's success.</h1>
             <p className="lead">
-              We partner with young hockey players worldwide to build elite skills, mindset, and opportunity—
+              We partner with hockey players worldwide to build elite skills, mindset, and opportunity—
               on and off the ice.
             </p>
             <div className="hero-actions">
-              <a href="#cta" className="btn">Become a Client</a>
+              <a href="/signup" className="btn">Become a Client</a>
               <a href="#about" className="btn btn-ghost">Learn More</a>
             </div>
           </div>
