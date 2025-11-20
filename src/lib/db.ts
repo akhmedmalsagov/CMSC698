@@ -1,14 +1,15 @@
-import mysql from 'mysql2/promise';
+import mysql from "mysql2/promise";
 
 let pool: mysql.Pool;
 
 export function getDb() {
   if (!pool) {
-    if (!process.env.DATABASE_URL) {
-      throw new Error('DATABASE_URL not set');
-    }
     pool = mysql.createPool({
-      uri: process.env.DATABASE_URL,
+      host: process.env.MYSQL_HOST || "localhost",
+      user: process.env.MYSQL_USER || "root",
+      password: process.env.MYSQL_PASSWORD || "",
+      database: process.env.MYSQL_DATABASE || "erzi",
+      waitForConnections: true,
       connectionLimit: 10,
     });
   }

@@ -19,6 +19,29 @@ type Player = {
   avatar_url: string | null;
 };
 
+/* Material types */
+
+type MaterialVideo = {
+  title: string;
+  url: string;
+};
+
+type MaterialSubsection = {
+  id: string;
+  title: string;
+  description?: string;
+  videos: MaterialVideo[];
+};
+
+type MaterialCategory = {
+  id: string;
+  label: string; // short label: "Ice Skills"
+  title: string; // headline inside tab
+  description: string;
+  imageUrl?: string; // optional image per tab later
+  subsections: MaterialSubsection[];
+};
+
 /* Nav config so you can reorder / rename in one place */
 const NAV_ITEMS: { id: Section; label: string }[] = [
   { id: "news",      label: "News Feed" },
@@ -27,6 +50,169 @@ const NAV_ITEMS: { id: Section; label: string }[] = [
   { id: "material",  label: "Material" },
   { id: "leagues",   label: "Leagues" },
   { id: "account",   label: "Account" },
+];
+
+/* Material data – replace URLs with your real YouTube links */
+
+const MATERIAL_CATEGORIES: MaterialCategory[] = [
+  {
+    id: "ice-skills",
+    label: "Ice Skills",
+    title: "On-Ice Skill Development",
+    description:
+      "Edges, deception, shooting in stride, and game-speed habits.",
+    imageUrl: "/material/ice-skills.jpg", // optional: put file in /public/material
+    subsections: [
+      {
+        id: "skating",
+        title: "Skating",
+        description: "Edges, crossovers, first three steps, acceleration.",
+        videos: [
+          {
+            title: "Edge Work – Inside & Outside Edges",
+            url: "https://www.youtube.com/watch?v=XXXXXXXXXXX",
+          },
+          {
+            title: "Explosive First Three Steps",
+            url: "https://www.youtube.com/watch?v=YYYYYYYYYYY",
+          },
+        ],
+      },
+      {
+        id: "stickhandling",
+        title: "Stickhandling",
+        description: "Deception, weight transfer, puck protection.",
+        videos: [
+          {
+            title: "Puck Protection Along the Boards",
+            url: "https://www.youtube.com/watch?v=ZZZZZZZZZZZ",
+          },
+        ],
+      },
+      {
+        id: "shooting",
+        title: "Shooting",
+        description: "Release speed, accuracy, shooting in stride.",
+        videos: [
+          {
+            title: "Shooting in Stride Breakdown",
+            url: "https://www.youtube.com/watch?v=AAAAAAAAAAA",
+          },
+        ],
+      },
+      {
+        id: "tactics",
+        title: "Tactics",
+        description: "Hockey IQ, entries, forecheck, D-zone habits.",
+        videos: [
+          {
+            title: "Offensive Zone Entries",
+            url: "https://www.youtube.com/watch?v=BBBBBBBBBBB",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "off-ice",
+    label: "Off-Ice Training",
+    title: "Gym, Power, and Recovery",
+    description:
+      "Conditioning blocks, jumps, strength progressions, mobility, and recovery.",
+    imageUrl: "/material/off-ice.jpg",
+    subsections: [
+      {
+        id: "stamina",
+        title: "Stamina & Conditioning",
+        videos: [
+          {
+            title: "Tempo Runs for Hockey",
+            url: "https://www.youtube.com/watch?v=CCCCCCCCCCC",
+          },
+        ],
+      },
+      {
+        id: "power",
+        title: "Power & Explosiveness",
+        videos: [
+          {
+            title: "Jump Progressions for Explosive Skating",
+            url: "https://www.youtube.com/watch?v=DDDDDDDDDDD",
+          },
+        ],
+      },
+      {
+        id: "strength",
+        title: "Strength",
+        videos: [
+          {
+            title: "Full-Body Strength for Hockey",
+            url: "https://www.youtube.com/watch?v=EEEEEEEEEEE",
+          },
+        ],
+      },
+      {
+        id: "mobility",
+        title: "Mobility & Flexibility",
+        videos: [
+          {
+            title: "Hip & Ankle Mobility Routine",
+            url: "https://www.youtube.com/watch?v=FFFFFFFFFFF",
+          },
+        ],
+      },
+      {
+        id: "recovery",
+        title: "Recovery",
+        videos: [
+          {
+            title: "Breathing Work & Sleep Tips",
+            url: "https://www.youtube.com/watch?v=GGGGGGGGGGG",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "nutrition",
+    label: "Nutrition",
+    title: "Fuel for Performance",
+    description:
+      "Bulking phases, cutting phases, and staying game-ready all season.",
+    imageUrl: "/material/nutrition.jpg",
+    subsections: [
+      {
+        id: "bulking",
+        title: "Bulking – Clean Mass",
+        videos: [
+          {
+            title: "In-Season Bulking Nutrition",
+            url: "https://www.youtube.com/watch?v=HHHHHHHHHHH",
+          },
+        ],
+      },
+      {
+        id: "maintenance",
+        title: "Maintenance",
+        videos: [
+          {
+            title: "Game Day Meal Examples",
+            url: "https://www.youtube.com/watch?v=IIIIIIIIIII",
+          },
+        ],
+      },
+      {
+        id: "cutting",
+        title: "Cutting Weight",
+        videos: [
+          {
+            title: "Smart Body-Fat Reduction",
+            url: "https://www.youtube.com/watch?v=JJJJJJJJJJJ",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 /* ---------- PAGE SHELL ---------- */
@@ -159,68 +345,157 @@ function NewsFeedSection() {
   );
 }
 
+/* ---------- MATERIAL SECTION (NEW DESIGN) ---------- */
+
 function MaterialSection() {
-  const iceSkills = [
-    "Skating – edges, crossovers, first three steps",
-    "Stickhandling – deception, weight transfer, puck protection",
-    "Shooting – release speed, accuracy, shooting in stride",
-    "Tactics – hockey IQ, entries, forecheck, D-zone habits",
-  ];
+  const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
+  const [openSubsectionId, setOpenSubsectionId] = useState<string | null>(null);
 
-  const offIce = [
-    "Stamina – conditioning blocks & tempo runs",
-    "Power – jumps, sprints, explosive work",
-    "Strength – full-body strength progressions",
-    "Mobility & Flexibility – hips, ankles, thoracic spine",
-    "Recovery – off-days, sleep, breathing work",
-  ];
+  // Read current category from URL (?materialCat=ice-skills)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-  const nutrition = [
-    "Bulking – clean mass for in-season or off-season",
-    "Staying in shape – maintenance plans",
-    "Cutting weight – smart body-fat reduction for speed",
-  ];
+    const readFromUrl = () => {
+      const url = new URL(window.location.href);
+      const cat = url.searchParams.get("materialCat");
+      setOpenCategoryId(cat);
+      setOpenSubsectionId(null);
+    };
+
+    // initial read
+    readFromUrl();
+
+    // handle browser back/forward
+    const onPop = () => readFromUrl();
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  const handleCategoryClick = (categoryId: string) => {
+    if (typeof window === "undefined") return;
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("materialCat", categoryId);
+    window.history.pushState({}, "", url.toString());
+
+    setOpenCategoryId(categoryId);
+    setOpenSubsectionId(null);
+  };
+
+  const currentCategory = openCategoryId
+    ? MATERIAL_CATEGORIES.find((cat) => cat.id === openCategoryId) ?? null
+    : null;
+
+  /* -------- VIEW 1: ONLY 3 TABS -------- */
+  if (!currentCategory) {
+    return (
+      <section className="material-page">
+        <header className="material-header">
+          <p className="platform-eyebrow">Material</p>
+          <h1 className="platform-heading material-heading">ERZI Training Library</h1>
+          <p className="platform-lead material-subtitle">
+            Every client gets a custom path through these blocks. This is where your skating,
+            skills, gym work, and nutrition plans will live.
+          </p>
+        </header>
+
+        <div className="material-tabs">
+          {MATERIAL_CATEGORIES.map((category) => (
+            <button
+              key={category.id}
+              className="material-tab"
+              onClick={() => handleCategoryClick(category.id)}
+            >
+              <div className="material-tab-inner">
+                <div className="material-tab-text">
+                  <h2 className="material-tab-label">{category.label}</h2>
+                  <h3 className="material-tab-title">{category.title}</h3>
+                  <p className="material-tab-description">{category.description}</p>
+                </div>
+                <div className="material-tab-image" />
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  /* -------- VIEW 2: ONE CATEGORY, WIDE SECTION CARDS -------- */
 
   return (
-    <section>
-      <p className="platform-eyebrow">TRAINING LIBRARY</p>
-      <h1 className="platform-heading">Your ERZI Material</h1>
-      <p className="platform-lead">
-        Every client gets a custom path through these blocks. This is where your skating, skills,
-        gym work, and nutrition plans will live.
-      </p>
+    <section className="material-page">
+      <header className="material-header">
+        <p className="platform-eyebrow">Material</p>
+        <h1 className="platform-heading material-heading">
+          {currentCategory.label}
+        </h1>
+        <p className="platform-lead material-subtitle">
+          {currentCategory.description}
+        </p>
+        {/* NOTE: no visible “Back” button here on purpose.
+            User uses browser Back to go to the 3-tab view. */}
+      </header>
 
-      <div className="platform-grid-3">
-        <div className="platform-panel">
-          <h3 className="platform-panel-title">Ice Skills</h3>
-          <ul className="platform-list">
-            {iceSkills.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
+      <div className="material-section-list">
+        {currentCategory.subsections.map((sub) => {
+          const isOpen = openSubsectionId === sub.id;
 
-        <div className="platform-panel">
-          <h3 className="platform-panel-title">Off-Ice Training</h3>
-          <ul className="platform-list">
-            {offIce.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
+          return (
+            <div key={sub.id} className="material-subsection-wrapper">
+              <button
+                className={
+                  "material-subsection-wide" + (isOpen ? " material-subsection-wide-open" : "")
+                }
+                onClick={() =>
+                  setOpenSubsectionId((prev) => (prev === sub.id ? null : sub.id))
+                }
+              >
+                <div className="material-subsection-wide-text">
+                  <h3 className="material-subsection-title">{sub.title}</h3>
+                  {sub.description && (
+                    <p className="material-subsection-description">
+                      {sub.description}
+                    </p>
+                  )}
+                </div>
+                <span className="material-subsection-chevron">
+                  {isOpen ? "−" : "+"}
+                </span>
+              </button>
 
-        <div className="platform-panel">
-          <h3 className="platform-panel-title">Nutrition</h3>
-          <ul className="platform-list">
-            {nutrition.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </div>
+              <div
+                className={
+                  "material-subsection-body" + (isOpen ? " material-subsection-body-open" : "")
+                }
+              >
+                {isOpen && (
+                  <ul className="material-videos-list">
+                    {sub.videos.map((video) => (
+                      <li key={video.url} className="material-video-item">
+                        <a
+                          href={video.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="material-video-link"
+                        >
+                          {video.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
 }
+
+
+/* ---------- LEAGUES SECTION ---------- */
 
 function LeaguesSection() {
   return (

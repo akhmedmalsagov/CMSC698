@@ -1,35 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
-import mysql from "mysql2/promise";
-
-const pool = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: "erzi",
-});
+import { getPlayerById } from "@/lib/auth";
 
 export async function GET(req: NextRequest) {
-  try {
-    const email = req.cookies.get("erziEmail")?.value;
+  // Read cookie from the request
+  const id = req.cookies.get("erzi_user_id")?.value;
 
-    if (!email) {
-      return NextResponse.json({ error: "Not logged in" }, { status: 401 });
-    }
-
-    const [rows] = await pool.query(
-      "SELECT * FROM players WHERE email = ? LIMIT 1",
-      [email]
-    );
-
-    const player = Array.isArray(rows) && rows[0] ? rows[0] : null;
-
-    if (!player) {
-      return NextResponse.json({ error: "Player not found" }, { status: 404 });
-    }
-
-    return NextResponse.json({ player });
-  } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: "Server error" }, { status: 500 });
+  if (!id) {
+    return NextResponse.json({ player: null }, { status: 401 });
   }
+
+  const player = await getPlayerById(Number(id));
+
+  if (!player) {
+    return NextResponse.json({ player: null }, { status: 401 });
+  }
+
+  // Make a shallow copy so we can safely remove sensitive fields
+  const safePlayer = { ...(player as any) };
+
+  // Remove password fields if they exist
+  delete safePlayer.password;
+  delete safePlayer.password_hash;
+  delete safePlayer.passwordHash;
+
+  return NextResponse.json({ player: safePlayer });
 }
