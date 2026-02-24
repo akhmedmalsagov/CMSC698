@@ -1,5 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import ErziLogo from "@/components/ErziLogo";
+import { span } from 'framer-motion/m';
+
 
 export const metadata: Metadata = {
   title: 'ERZI | Hockey Development Agency',

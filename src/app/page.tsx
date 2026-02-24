@@ -22,7 +22,7 @@ export default function HomePage() {
 
         <div className="container hero-inner">
           <div className="hero-text">
-            <h1>Committed to our player's success.</h1>
+            <h1>Committed to our players' success.</h1>
             <p className="lead">
               We partner with hockey players worldwide to build elite skills, mindset, and opportunity—
               on and off the ice.
